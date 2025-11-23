@@ -10,12 +10,12 @@ const app = Express();
 /**
  * Consfigure the cores to accept requests from defined IPs and domains
  */
-app.use(
-  cors({
-    origin: ['http://localhost:3000','https://healthy-falcon-greatly.ngrok-free.app' /**Add more domains to the allowed list */],
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: ['http://localhost:3000','https://healthy-falcon-greatly.ngrok-free.app' /**Add more domains to the allowed list */],
+//     credentials: true,
+//   })
+// );
 /**
  * @description
  * Configure your application to use json
