@@ -31,6 +31,8 @@ class Mpesa_stk_push_controller {
    * @description store stk message in redis cache
    */
   async handleResponse(req, res) {
+    console.log("req.body",JSON.stringify(req.body))
+    console.log("req.params",req.params)
     try {
       /**
        * get "MerchantRequestID" from redis cache and use it as cache key
