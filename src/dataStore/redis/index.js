@@ -1,13 +1,20 @@
 import { createClient } from 'redis';
 
-const client = createClient();
+const client = createClient({
+    username: 'default',
+    password: '5tEfpjGaSU1wMwLkilHuoOd6yUgqouUR',
+    socket: {
+        host: 'redis-15649.c17.us-east-1-4.ec2.cloud.redislabs.com',
+        port: 15649
+    }
+});
 
 client.on('error', err => console.log('Redis Client Error', err));
 
-const newRedisClient = await client.connect(
-    {
-        url: process.env.REDIS_URL
-    }
-);
+const newRedisClient = async () => {
+    await client.connect();
+};
 
-export default newRedisClient;
+newRedisClient();
+
+export default newRedisClient() ;

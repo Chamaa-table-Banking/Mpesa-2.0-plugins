@@ -5,6 +5,7 @@ import route from '../src/routes/Mpesa_auth/index.js';
 import route_qr from '../src/routes/Mpesa_Dynamic_qr/index.js'
 import route_stk from '../src/routes/M-Express/index.js'
 import b2croute from '../src/routes/M-B2c/index.js'
+import walletRoute from '../src/routes/wallet/index.js'
 const app = Express();
 
 /**
@@ -35,6 +36,7 @@ app.use(`${api_version}`, route);
 app.use(`${api_version}`, route_qr);
 app.use(`${api_version}`, route_stk);
 app.use(`${api_version}`, b2croute);
+app.use(`${api_version}`, walletRoute);
 
 
 export default app;
