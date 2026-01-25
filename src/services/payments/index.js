@@ -90,7 +90,7 @@ class PaymentService {
         }
     }
 
-    async getPaymentByTransactionId(transactionId) {
+   static async getPaymentByTransactionId(transactionId) {
         try {
             const paymentIn = await Payments_in.findOne({ where: { transaction_id: transactionId } });
             if (paymentIn) {
@@ -103,7 +103,7 @@ class PaymentService {
         }
     }
 
-    async markPaymentAsActualized(transactionId, type) {
+    static async markPaymentAsActualized(transactionId, type) {
         try {
             if (type === 'in') {
                 const paymentIn = await Payments_in.findOne({ where: { transaction_id: transactionId } });
@@ -120,14 +120,16 @@ class PaymentService {
                     return paymentOut;
                 }
             }
-            throw new Error('Payment not found');
+           return {
+            message: 'Payment not found or invalid type'
+           }
         } catch (error) {
             throw new Error('Error marking payment as actualized: ' + error.message);
         }
     
     }
 
-    async getChamaaWalletSummary(chamaaId) {
+    static async getChamaaWalletSummary(chamaaId) {
         try {
             const totalPaymentsIn = await Payments_in.sum('amount', { where: { chamaa_id: chamaaId, actualized: true } });
             const totalPaymentsOut = await Payments_out.sum('amount', { where: { chamaa_id: chamaaId, actualized: true } });
@@ -141,7 +143,7 @@ class PaymentService {
         }
     }
 
-    async getSumOfCreditPaymentsIn(chamaaId) {
+   static async getSumOfCreditPaymentsIn(chamaaId) {
         try {
             const totalCredits = await Payments_in.sum('amount', { where: { chamaa_id: chamaaId, type: 'credit', actualized: true } });
             return totalCredits || 0;
@@ -150,7 +152,7 @@ class PaymentService {
         }
     }
 
-    async getSumOfDebitPaymentsOut(chamaaId) {
+    static async getSumOfDebitPaymentsOut(chamaaId) {
         try {
             const totalDebits = await Payments_out.sum('amount', { where: { chamaa_id: chamaaId, type: 'debit', actualized: true } });
             return totalDebits || 0;
@@ -159,7 +161,7 @@ class PaymentService {
         }
     }
    
-    getdatefilteredPaymentsIn(chamaaId, startDate, endDate) {
+   static async  getdatefilteredPaymentsIn(chamaaId, startDate, endDate) {
         try {
             const paymentsIn = Payments_in.findAll({
                 where: {
@@ -176,7 +178,7 @@ class PaymentService {
             throw new Error('Error fetching date filtered payments in: ' + error.message);
         }
     }
-    getdatefilteredPaymentsOut(chamaaId, startDate, endDate) {
+   static async getdatefilteredPaymentsOut(chamaaId, startDate, endDate) {
         try {
             const paymentsOut = Payments_out.findAll({
                 where: {
@@ -193,8 +195,5 @@ class PaymentService {
             throw new Error('Error fetching date filtered payments out: ' + error.message);
         }
     }
-
-
-
-
 }
+export default PaymentService;

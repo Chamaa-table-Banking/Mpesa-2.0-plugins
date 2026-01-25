@@ -15,6 +15,9 @@ Wallet_Balance.init(
     amount:{
       type:DataTypes.FLOAT
     },
+    chamaa_id:{
+      type: DataTypes.STRING
+    },
     createdAt:{
       allowNull: false,
       type:DataTypes.DATE,

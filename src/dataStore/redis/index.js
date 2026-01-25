@@ -15,6 +15,5 @@ const newRedisClient = async () => {
     await client.connect();
 };
 
-newRedisClient();
 
 export default newRedisClient() ;

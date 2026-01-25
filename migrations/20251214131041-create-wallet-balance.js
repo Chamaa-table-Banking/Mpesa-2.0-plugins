@@ -15,6 +15,9 @@ module.exports = {
       amount: {
         type: Sequelize.FLOAT
       },
+      chamaa_id: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
