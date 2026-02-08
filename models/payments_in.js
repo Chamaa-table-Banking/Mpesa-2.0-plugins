@@ -31,7 +31,8 @@ Payments_in.init(
       type:DataTypes.STRING
     },
     date:{
-      type:DataTypes.DATE
+      type:DataTypes.DATE,
+      defaultValue:DataTypes.NOW
     },
     actualized:{
       type: DataTypes.BOOLEAN,

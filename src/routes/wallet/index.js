@@ -20,10 +20,10 @@ class WalletRoutes {
             `${api}/wallet/:id`,
             WalletController.updateWalletEntry
         );
-        this.router.delete(
-            `${api}/wallet/:id`,
-            WalletController.deleteWalletEntry
-        );
+        // this.router.delete(
+        //     `${api}/wallet/:id`,
+        //     WalletController.deleteWalletEntry
+        // );
         this.router.get(
             `${api}/wallet/balance/chamaa/:chamaaId`,
             WalletController.getTotalBalnceByChamaaId

@@ -1,10 +1,9 @@
 import ResponseService from "../../functions/ResposeService.js";
 import stkPush from "../../services/M-Express/index.js";
-import newRedisClient from "../../dataStore/redis/index.js";
+import {RedisSets} from "../../dataStore/redis/sets.js"
 import log from "../../functions/logger.js";
 import pkg from "lodash";
 const { constant } = pkg;
-
 class Mpesa_stk_push_controller {
   /**
    *
@@ -46,14 +45,7 @@ class Mpesa_stk_push_controller {
         log.error("Couldn't retrieve MerchantRequestID from the callback data.");
       } else {
         console.log("Storing callback for MerchantRequestID: " + cacheKey);
-      
-        // Store the full request body in Redis with an expiration time
-        await newRedisClient.set(
-          cacheKey,                              // Key for Redis storage
-          JSON.stringify(req.body.Body),              // Store the full request body as a string
-          'EX',                                  // Set expiration
-          constant.REDIS_CACHE_EXPIRATION_SEC    // Expiration time in seconds
-        );
+        await RedisSets.addToSet(cacheKey, JSON.stringify(req.body.Body))
       
         console.log("Data successfully stored in Redis.");
       }
@@ -71,7 +63,7 @@ class Mpesa_stk_push_controller {
   async getStkPushResponse(req, res) {
     try {
       const cacheKey = req.params.MerchantRequestID;
-      const cacheValue = await newRedisClient.get(cacheKey);
+      const cacheValue = await RedisSets.getSetMembers(cacheKey)
 
       if (!cacheValue) {
         ResponseService.error(res, "STK push response not found in cache");
@@ -82,8 +74,8 @@ class Mpesa_stk_push_controller {
        */
       ResponseService.success(
         res,
-        JSON.parse(cacheValue),
-        "STK push response retrieved from cache and deleted from cache"
+        cacheValue,
+        "STK push response retrieved"
       );
     } catch (error) {
       ResponseService.error(res, error);
