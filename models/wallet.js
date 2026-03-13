@@ -34,6 +34,9 @@ Wallets.init(
     is_credit:{
       type:DataTypes.BOOLEAN
     },
+    transaction_type:{
+      type:DataTypes.STRING
+    },
     createdAt:{
       allowNull: false,
       type:DataTypes.DATE,
