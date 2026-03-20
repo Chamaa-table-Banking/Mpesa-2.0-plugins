@@ -38,21 +38,17 @@ class WalletRoutes {
             `${api}/wallet/:id`,
             WalletController.updateWalletEntry
         );
-        // this.router.delete(
-        //     `${api}/wallet/:id`,
-        //     WalletController.deleteWalletEntry
-        // );
+        this.router.post(
+            `${api}/wallet/transactions/chamaa/:id`,
+            WalletController.getChamaaTransactions
+        );
         this.router.get(
             `${api}/wallet/balance/chamaa/:chamaaId`,
             WalletController.getTotalBalnceByChamaaId
         );
         this.router.get(
-            `${api}/wallet/credits/chamaa/:chamaaId`,
+            `${api}/wallet/transactions/chamaa/:chamaaId`,
             WalletController.sumCreditsByChamaaId
-        );
-        this.router.get(
-            `${api}/wallet/debits/chamaa/:chamaaId`,
-            WalletController.sumDebitsByChamaaId
         );
     }
 }

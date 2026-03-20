@@ -202,6 +202,24 @@ class WalletService {
             throw new Error('Error summing credits: ' + error.message);
         }
     }
+    async getChamaaTransactions(id, pagination,startDate,endDate){
+        try{
+            console.log("fetching chamaa transactions for chamaa " + id + " with pagination ", pagination, " and date range ", startDate, " to ", endDate)
+            const transactions = await Wallets.findAndCountAll({
+                where:{chamaa_id:id, date: { [Op.between]: [startDate, endDate] }},
+                limit: pagination.limit,
+                offset: pagination.offset
+            });
+            return {
+                page: Math.floor(pagination.offset / pagination.limit) + 1,
+                limit: pagination.limit,
+                ...transactions
+            };
+        }
+        catch(err){
+            throw new Error('Error fetching chamaa transactions: ' + err.message);
+        }
+    }
     async sumDebitsByChamaaId(chamaaId) {
         try {
             const totalDebits = await Wallets.sum('amount', { where: { chamaa_id: chamaaId, is_debit: true } });

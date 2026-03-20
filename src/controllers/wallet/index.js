@@ -121,6 +121,21 @@ class WalletController {
             return ResponseService.error(res, 'Failed to fetch wallet entry: ' + error.message);
         }
     }
+    static async getChamaaTransactions(req,res){
+        try{
+            const {page, limit, startDate,endDate} = req.body;
+            const pagination = {
+                limit: parseInt(limit) || 10,
+                offset: (parseInt(page) - 1 || 0) * (parseInt(limit) || 10)
+            };
+            const transactions = await WalletService.getChamaaTransactions(req.params.id, pagination, startDate,endDate);
+            return ResponseService.success(res, transactions, "Chamaa transactions fetched successfully");  
+        }
+        catch(err){
+            console.log(err)
+            ResponseService.error(res, 'Failed to fetch wallet entries'+err.message)
+        }
+    }
     static async getWalletEntriesByDateRange(req, res) {
         try {
             const { userId } = req.params;
